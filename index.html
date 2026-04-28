@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IsleVault — Private Island Marketplace</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky1: #b8e0f7;
+    --sky2: #d6eefc;
+    --sky3: #e8f6ff;
+    --ocean1: #1a6e8f;
+    --ocean2: #0d4d6b;
+    --ocean3: #2389b0;
+    --sand: #f5e6c8;
+    --gold: #c9a84c;
+    --gold2: #e8c46a;
+    --ivory: #faf8f3;
+    --dark: #0a1a24;
+    --text: #1c3040;
+    --muted: #5a7a8e;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--ivory);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── SKYLINE HERO ─── */
+  #sky-scene {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    background: linear-gradient(180deg, #6bbfee 0%, #a8d8f0 40%, #ceeafc 70%, #e5f5ff 100%);
+    overflow: hidden;
+  }
+
+  .sun {
+    position: absolute;
+    top: 40px; right: 120px;
+    width: 70px; height: 70px;
+    background: radial-gradient(circle, #fff9d0 30%, #fde98a 60%, rgba(253,233,138,0) 100%);
+    border-radius: 50%;
+    animation: sunPulse 6s ease-in-out infinite;
+  }
+
+  @keyframes sunPulse {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.9; }
+  }
+
+  /* CLOUDS */
+  .cloud {
+    position: absolute;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.88;
+    animation: drift linear infinite;
+  }
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+  }
+  .c1 { width: 120px; height: 36px; top: 55px; animation-duration: 38s; animation-delay: 0s; }
+  .c1::before { width: 60px; height: 60px; top: -30px; left: 15px; }
+  .c1::after  { width: 40px; height: 40px; top: -20px; left: 55px; }
+
+  .c2 { width: 90px; height: 26px; top: 80px; opacity: 0.7; animation-duration: 55s; animation-delay: -15s; }
+  .c2::before { width: 45px; height: 45px; top: -22px; left: 10px; }
+  .c2::after  { width: 30px; height: 30px; top: -15px; left: 44px; }
+
+  .c3 { width: 160px; height: 44px; top: 30px; opacity: 0.65; animation-duration: 70s; animation-delay: -30s; }
+  .c3::before { width: 80px; height: 80px; top: -40px; left: 20px; }
+  .c3::after  { width: 55px; height: 55px; top: -28px; left: 78px; }
+
+  .c4 { width: 70px; height: 20px; top: 100px; opacity: 0.6; animation-duration: 45s; animation-delay: -8s; }
+  .c4::before { width: 35px; height: 35px; top: -18px; left: 8px; }
+  .c4::after  { width: 25px; height: 25px; top: -12px; left: 34px; }
+
+  .c5 { width: 110px; height: 30px; top: 65px; opacity: 0.75; animation-duration: 62s; animation-delay: -22s; }
+  .c5::before { width: 55px; height: 55px; top: -28px; left: 12px; }
+  .c5::after  { width: 38px; height: 38px; top: -19px; left: 55px; }
+
+  .c6 { width: 80px; height: 22px; top: 45px; opacity: 0.55; animation-duration: 80s; animation-delay: -40s; }
+  .c6::before { width: 40px; height: 40px; top: -20px; left: 10px; }
+  .c6::after  { width: 28px; height: 28px; top: -14px; left: 40px; }
+
+  @keyframes drift {
+    from { transform: translateX(-220px); }
+    to   { transform: translateX(calc(100vw + 220px)); }
+  }
+
+  /* OCEAN WAVES */
+  .ocean-layer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+  .wave-svg { display: block; }
+
+  /* ISLAND SILHOUETTES */
+  .islands-svg {
+    position: absolute;
+    bottom: 68px;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  /* BIRDS */
+  .bird {
+    position: absolute;
+    animation: flyBird linear infinite;
+  }
+  .bird svg { width: 22px; opacity: 0.5; }
+  .b1 { top: 110px; animation-duration: 25s; animation-delay: -5s; }
+  .b2 { top: 90px;  animation-duration: 30s; animation-delay: -12s; }
+  .b3 { top: 130px; animation-duration: 20s; animation-delay: -18s; }
+
+  @keyframes flyBird {
+    from { transform: translateX(-60px); }
+    to   { transform: translateX(calc(100vw + 60px)); }
+  }
+
+  /* PALM TREES */
+  .palm {
+    position: absolute;
+    bottom: 60px;
+    animation: palmsway 5s ease-in-out infinite;
+    transform-origin: bottom center;
+  }
+  .palm:nth-child(2) { animation-delay: -1.5s; }
+  .palm:nth-child(3) { animation-delay: -3s; }
+
+  @keyframes palmsway {
+    0%,100% { transform: rotate(-2deg); }
+    50%      { transform: rotate(2deg); }
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 48px;
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--dark);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+  .logo span { color: var(--ocean1); }
+
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dark);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ocean1); }
+
+  #cart-btn {
+    position: relative;
+    background: var(--dark);
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  #cart-btn:hover { background: var(--ocean2); }
+  #cart-count {
+    background: var(--gold);
+    color: var(--dark);
+    border-radius: 50%;
+    width: 18px; height: 18px;
+    font-size: 11px;
+    font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.3s;
+  }
+  #cart-count.bump { animation: bump 0.3s ease; }
+  @keyframes bump { 0%,100%{transform:scale(1)} 50%{transform:scale(1.5)} }
+
+  /* ─── HERO TEXT ─── */
+  .hero-text {
+    position: absolute;
+    bottom: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .hero-text h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px;
+    font-weight: 300;
+    color: var(--dark);
+    line-height: 1.0;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    text-shadow: 0 2px 20px rgba(255,255,255,0.7);
+  }
+  .hero-text p {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+
+  /* ─── SECTION ─── */
+  .section-header {
+    text-align: center;
+    padding: 64px 48px 40px;
+  }
+  .section-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--dark);
+    letter-spacing: 0.02em;
+  }
+  .section-header p {
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+  .divider {
+    width: 60px; height: 1px;
+    background: var(--gold);
+    margin: 16px auto 0;
+  }
+
+  /* ─── ISLAND GRID ─── */
+  #islands-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 28px;
+    padding: 0 48px 80px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .island-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 30px rgba(10,26,36,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  .island-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 50px rgba(10,26,36,0.15);
+  }
+  .island-card.sold {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .card-scene {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  /* Mini sky scenes per card */
+  .mini-sky {
+    width: 100%; height: 100%;
+    background: linear-gradient(180deg, #5bb3e8 0%, #9dd4f2 55%, #1a6e8f 55%, #0d4d6b 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .mini-sky.sunset { background: linear-gradient(180deg, #f4a261 0%, #e76f51 30%, #ffcba4 55%, #1a6e8f 55%, #0d4d6b 100%); }
+  .mini-sky.tropical { background: linear-gradient(180deg, #48cae4 0%, #90e0ef 55%, #1a6e8f 55%, #0d4d6b 100%); }
+  .mini-sky.misty { background: linear-gradient(180deg, #adb5bd 0%, #ccd5de 55%, #457b9d 55%, #1d3557 100%); }
+
+  .mini-cloud {
+    position: absolute;
+    background: rgba(255,255,255,0.85);
+    border-radius: 30px;
+    animation: miniDrift linear infinite;
+  }
+  .mini-cloud::before {
+    content: '';
+    position: absolute;
+    background: rgba(255,255,255,0.85);
+    border-radius: 50%;
+  }
+
+  @keyframes miniDrift {
+    from { transform: translateX(-100px); }
+    to   { transform: translateX(440px); }
+  }
+
+  .mini-island-svg {
+    position: absolute;
+    bottom: 68px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Floating mini palm animation */
+  .mini-palm-sway { animation: palmsway 4s ease-in-out infinite; transform-origin: bottom center; }
+
+  /* Wave mini */
+  .wave-mini {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+  }
+
+  .sold-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ocean2);
+    letter-spacing: 0.2em;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .sold-owner {
+    font-size: 13px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  .card-info { padding: 20px 22px 22px; }
+  .card-tag {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .card-loc {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    margin-bottom: 14px;
+  }
+  .card-stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .stat { font-size: 12px; color: var(--muted); }
+  .stat strong { color: var(--text); font-weight: 500; display: block; font-size: 13px; }
+
+  .card-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ocean1);
+    margin-bottom: 14px;
+  }
+  .card-price span { font-size: 14px; font-weight: 300; color: var(--muted); }
+
+  .card-actions { display: flex; gap: 10px; }
+  .btn-add {
+    flex: 1;
+    padding: 11px 16px;
+    background: var(--dark);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-add:hover { background: var(--ocean2); }
+  .btn-add.in-cart { background: var(--ocean1); }
+  .btn-add.in-cart:hover { background: #c0392b; }
+
+  .btn-remove {
+    padding: 11px 16px;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-remove:hover { border-color: #e74c3c; color: #e74c3c; }
+
+  /* ─── CART DRAWER ─── */
+  #cart-overlay {
+    position: fixed; inset: 0;
+    background: rgba(10,26,36,0.4);
+    z-index: 900;
+    display: none;
+    animation: fadeIn 0.2s;
+  }
+  #cart-overlay.open { display: block; }
+
+  @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+  #cart-drawer {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 420px;
+    background: var(--ivory);
+    z-index: 1000;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -10px 0 60px rgba(10,26,36,0.15);
+  }
+  #cart-drawer.open { transform: translateX(0); }
+
+  .cart-head {
+    padding: 28px 28px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .cart-head h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--dark);
+  }
+  .close-cart {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--muted);
+    line-height: 1;
+  }
+
+  #cart-items { flex: 1; overflow-y: auto; padding: 20px 28px; }
+
+  .cart-item {
+    display: flex;
+    gap: 14px;
+    padding: 16px 0;
+    border-bottom: 1px solid #eee;
+    animation: slideIn 0.3s ease;
+  }
+  @keyframes slideIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+  .ci-thumb {
+    width: 70px; height: 55px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .ci-thumb svg { width: 100%; height: 100%; }
+
+  .ci-info { flex: 1; }
+  .ci-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--dark);
+  }
+  .ci-loc { font-size: 11px; color: var(--muted); }
+  .ci-price { font-size: 15px; font-weight: 500; color: var(--ocean1); margin-top: 4px; }
+
+  .ci-remove {
+    background: none;
+    border: 1px solid #ddd;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .ci-remove:hover { border-color: #e74c3c; color: #e74c3c; }
+
+  .cart-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    font-style: italic;
+  }
+  .cart-empty svg { margin-bottom: 16px; opacity: 0.3; }
+
+  .cart-foot {
+    padding: 20px 28px 28px;
+    border-top: 1px solid #eee;
+    background: white;
+  }
+  .cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .cart-total span:first-child { font-size: 13px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .cart-total span:last-child { font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--dark); }
+
+  .btn-checkout {
+    width: 100%;
+    padding: 14px;
+    background: var(--ocean1);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-checkout:hover { background: var(--ocean2); }
+  .btn-checkout:disabled { background: #ccc; cursor: not-allowed; }
+
+  /* ─── MODAL OVERLAY ─── */
+  #modal-wrap {
+    position: fixed; inset: 0;
+    background: rgba(10,26,36,0.6);
+    z-index: 1100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+  }
+  #modal-wrap.open { display: flex; }
+
+  .modal {
+    background: var(--ivory);
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.3);
+    animation: modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  @keyframes modalIn { from{opacity:0;transform:scale(0.85)} to{opacity:1;transform:scale(1)} }
+
+  .modal-close {
+    position: absolute;
+    top: 18px; right: 18px;
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { border-color: var(--ocean1); color: var(--ocean1); }
+
+  /* BUY PAGE */
+  .buy-scene {
+    height: 160px;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .buy-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .buy-loc { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+  .buy-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .buy-detail {
+    background: white;
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .buy-detail label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); display: block; margin-bottom: 4px; }
+  .buy-detail span { font-size: 14px; color: var(--dark); font-weight: 400; }
+
+  .buy-form { margin-bottom: 24px; }
+  .buy-form label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); display: block; margin-bottom: 6px; margin-top: 14px; }
+  .buy-form input {
+    width: 100%;
+    padding: 11px 16px;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    color: var(--dark);
+    background: white;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .buy-form input:focus { border-color: var(--ocean1); }
+
+  .buy-price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-top: 1px solid #eee;
+    margin-top: 4px;
+  }
+  .buy-price-row span { font-size: 13px; color: var(--muted); }
+  .buy-price-row strong { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--ocean1); }
+
+  .btn-confirm {
+    width: 100%;
+    padding: 14px;
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-confirm:hover { background: var(--gold2); }
+  .btn-confirm:active { transform: scale(0.98); }
+
+  /* INVOICE PAGE */
+  .invoice-header { text-align: center; margin-bottom: 28px; }
+  .invoice-header .check-icon {
+    width: 60px; height: 60px;
+    background: #e8f5e9;
+    border-radius: 50%;
+    margin: 0 auto 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes popIn { from{transform:scale(0)} to{transform:scale(1)} }
+
+  .invoice-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px;
+    font-weight: 400;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .invoice-header p { font-size: 13px; color: var(--muted); }
+
+  .invoice-box {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .inv-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+  }
+  .inv-row:last-child { border: none; }
+  .inv-row .lbl { color: var(--muted); }
+  .inv-row .val { color: var(--dark); font-weight: 400; text-align: right; }
+
+  .inv-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0 8px;
+    border-top: 2px solid var(--gold);
+    margin-top: 8px;
+  }
+  .inv-total-row span { font-size: 14px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .inv-total-row strong { font-family: 'Cormorant Garamond', serif; font-size: 32px; color: var(--ocean1); }
+
+  .ownership-badge {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--ocean2) 100%);
+    border-radius: 16px;
+    padding: 20px 24px;
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .ownership-badge .ob-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.6; }
+  .ownership-badge .ob-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; margin: 6px 0 2px; }
+  .ownership-badge .ob-island { font-size: 13px; opacity: 0.8; }
+
+  .inv-ref { text-align: center; font-size: 11px; color: #bbb; margin-top: 8px; letter-spacing: 0.1em; }
+
+  .btn-done {
+    width: 100%;
+    padding: 14px;
+    background: var(--dark);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Jost', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-done:hover { background: var(--ocean2); }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--dark);
+    color: white;
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    padding: 36px 48px;
+  }
+  .stats-bar .s { text-align: center; }
+  .stats-bar .sn {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px;
+    font-weight: 300;
+    color: var(--gold2);
+    display: block;
+  }
+  .stats-bar .sl { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.5; }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 24px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  /* NOTIFICATION */
+  #notif {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--dark);
+    color: white;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-size: 13px;
+    z-index: 2000;
+    transition: transform 0.3s, opacity 0.3s;
+    opacity: 0;
+    white-space: nowrap;
+    box-shadow: 0 6px 30px rgba(0,0,0,0.2);
+  }
+  #notif.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- ─── SKY HERO ─── -->
+<div id="sky-scene">
+  <!-- Clouds -->
+  <div class="cloud c1" style="left:-150px"></div>
+  <div class="cloud c2" style="left:30%"></div>
+  <div class="cloud c3" style="left:60%"></div>
+  <div class="cloud c4" style="left:15%"></div>
+  <div class="cloud c5" style="left:45%"></div>
+  <div class="cloud c6" style="left:75%"></div>
+
+  <!-- Sun -->
+  <div class="sun"></div>
+
+  <!-- Birds -->
+  <div class="bird b1" style="left:-60px">
+    <svg viewBox="0 0 30 14" fill="none">
+      <path d="M15 7 C12 4 6 2 1 5" stroke="#555" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <path d="M15 7 C18 4 24 2 29 5" stroke="#555" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    </svg>
+  </div>
+  <div class="bird b2" style="left:20%">
+    <svg viewBox="0 0 30 14" fill="none">
+      <path d="M15 7 C12 4 6 2 1 5" stroke="#555" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <path d="M15 7 C18 4 24 2 29 5" stroke="#555" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    </svg>
+  </div>
+  <div class="bird b3" style="left:50%">
+    <svg viewBox="0 0 30 14" fill="none">
+      <path d="M15 7 C12 4 6 2 1 5" stroke="#555" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <path d="M15 7 C18 4 24 2 29 5" stroke="#555" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- Island silhouettes background -->
+  <svg class="islands-svg" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Island 1 -->
+    <ellipse cx="250" cy="100" rx="90" ry="22" fill="#2d7a4f" opacity="0.5"/>
+    <ellipse cx="250" cy="92" rx="75" ry="18" fill="#3a9462" opacity="0.5"/>
+    <!-- Palm 1 -->
+    <line x1="250" y1="92" x2="248" y2="52" stroke="#1a5c34" stroke-width="3" opacity="0.5"/>
+    <ellipse cx="248" cy="50" rx="20" ry="10" fill="#2d7a4f" opacity="0.4" transform="rotate(-20,248,50)"/>
+    <!-- Island 2 -->
+    <ellipse cx="800" cy="105" rx="110" ry="18" fill="#2d7a4f" opacity="0.35"/>
+    <ellipse cx="800" cy="98" rx="90" ry="15" fill="#3a9462" opacity="0.35"/>
+    <line x1="790" y1="95" x2="788" y2="55" stroke="#1a5c34" stroke-width="3" opacity="0.4"/>
+    <ellipse cx="788" cy="53" rx="18" ry="9" fill="#2d7a4f" opacity="0.35" transform="rotate(-25,788,53)"/>
+    <line x1="808" y1="92" x2="820" y2="58" stroke="#1a5c34" stroke-width="2.5" opacity="0.4"/>
+    <ellipse cx="820" cy="56" rx="15" ry="8" fill="#2d7a4f" opacity="0.35" transform="rotate(20,820,56)"/>
+    <!-- Island 3 -->
+    <ellipse cx="1220" cy="100" rx="70" ry="16" fill="#2d7a4f" opacity="0.4"/>
+    <line x1="1220" y1="97" x2="1222" y2="65" stroke="#1a5c34" stroke-width="2.5" opacity="0.4"/>
+    <ellipse cx="1222" cy="63" rx="15" ry="8" fill="#2d7a4f" opacity="0.4" transform="rotate(-15,1222,63)"/>
+  </svg>
+
+  <!-- Ocean layers -->
+  <div class="ocean-layer">
+    <svg class="wave-svg" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,40 C200,10 400,60 600,35 C800,10 1000,55 1200,30 C1320,15 1380,40 1440,35 L1440,80 L0,80 Z" fill="#1a6e8f"/>
+      <path d="M0,55 C180,30 360,65 540,45 C720,25 900,60 1080,40 C1260,20 1360,50 1440,45 L1440,80 L0,80 Z" fill="#0d4d6b" opacity="0.7"/>
+    </svg>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="#">Isle<span>Vault</span></a>
+    <div class="nav-links">
+      <a href="#">Islands</a>
+      <a href="#">How It Works</a>
+      <a href="#">Contact</a>
+      <button id="cart-btn" onclick="toggleCart()">
+        🛒 Cart
+        <span id="cart-count">0</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO TEXT -->
+  <div class="hero-text">
+    <h1>Own Your Paradise</h1>
+    <p>Private Islands · Exclusive Listings · Once in a Lifetime</p>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="s"><span class="sn" id="stat-available">8</span><span class="sl">Islands Available</span></div>
+  <div class="s"><span class="sn">140+</span><span class="sl">Acres Listed</span></div>
+  <div class="s"><span class="sn" id="stat-sold">0</span><span class="sl">Islands Sold</span></div>
+  <div class="s"><span class="sn">$2.4B</span><span class="sl">Total Value</span></div>
+</div>
+
+<!-- LISTINGS -->
+<div class="section-header">
+  <p>Exclusive Listings</p>
+  <h2>Available Islands</h2>
+  <div class="divider"></div>
+</div>
+
+<div id="islands-grid"></div>
+
+<!-- CART OVERLAY + DRAWER -->
+<div id="cart-overlay" onclick="toggleCart()"></div>
+<div id="cart-drawer">
+  <div class="cart-head">
+    <h3>Your Selection</h3>
+    <button class="close-cart" onclick="toggleCart()">✕</button>
+  </div>
+  <div id="cart-items"></div>
+  <div class="cart-foot">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cart-total-display">$0</span>
+    </div>
+    <button class="btn-checkout" id="checkout-btn" onclick="openCheckout()" disabled>Proceed to Purchase</button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal-wrap">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<!-- NOTIFICATION -->
+<div id="notif"></div>
+
+<footer>
+  © 2025 IsleVault Private Ltd. · All island listings verified · Prices in USD
+</footer>
+
+<script>
+const ISLANDS = [
+  {
+    id: 1,
+    name: "Coral Serenity",
+    location: "Maldives, Indian Ocean",
+    tag: "Tropical Paradise",
+    size: "12 acres",
+    beaches: 4,
+    depth: "Crystal Clear",
+    climate: "Tropical",
+    price: 4200000,
+    theme: "",
+    desc: "A pristine coral-ringed atoll with four white-sand beaches, lush coconut palms, and a private reef system.",
+    palmCount: 3
+  },
+  {
+    id: 2,
+    name: "Amber Horizon",
+    location: "Bahamas, Caribbean",
+    tag: "Caribbean Gem",
+    size: "8 acres",
+    beaches: 2,
+    depth: "Shallow Lagoon",
+    climate: "Sub-tropical",
+    price: 2850000,
+    theme: "sunset",
+    desc: "A stunning sunset-facing island with a protected lagoon, golden-hour views, and rich marine biodiversity.",
+    palmCount: 2
+  },
+  {
+    id: 3,
+    name: "Jade Solitude",
+    location: "Raja Ampat, Indonesia",
+    tag: "Biodiversity Hotspot",
+    size: "22 acres",
+    beaches: 6,
+    depth: "Deep Blue",
+    climate: "Equatorial",
+    price: 7800000,
+    theme: "tropical",
+    desc: "Nestled in the world's most biodiverse marine region, this jewel offers six secluded beaches and ancient jungle.",
+    palmCount: 4
+  },
+  {
+    id: 4,
+    name: "Mist & Stone",
+    location: "British Columbia, Canada",
+    tag: "Pacific Northwest",
+    size: "34 acres",
+    beaches: 3,
+    depth: "Fjord Waters",
+    climate: "Temperate",
+    price: 3400000,
+    theme: "misty",
+    desc: "A forested sanctuary amid dramatic fjords, with old-growth cedars, freshwater streams, and dramatic clifftops.",
+    palmCount: 0
+  },
+  {
+    id: 5,
+    name: "Pearl Crescent",
+    location: "Fiji, South Pacific",
+    tag: "South Pacific Retreat",
+    size: "15 acres",
+    beaches: 5,
+    depth: "Turquoise",
+    climate: "Tropical",
+    price: 5600000,
+    theme: "",
+    desc: "A crescent-shaped beauty with five distinct beach coves, vibrant coral gardens, and uninterrupted horizon views.",
+    palmCount: 3
+  },
+  {
+    id: 6,
+    name: "Golden Soleil",
+    location: "French Polynesia",
+    tag: "French Territory",
+    size: "9 acres",
+    beaches: 3,
+    depth: "Lagoon",
+    climate: "Tropical",
+    price: 9200000,
+    theme: "sunset",
+    desc: "An ultra-premium atoll in the Tuamotu archipelago with overwater bungalow potential and exclusive seclusion.",
+    palmCount: 2
+  },
+  {
+    id: 7,
+    name: "Azure Veil",
+    location: "Seychelles, Africa",
+    tag: "Indian Ocean Jewel",
+    size: "18 acres",
+    beaches: 4,
+    depth: "Azure Reefs",
+    climate: "Tropical",
+    price: 6400000,
+    theme: "tropical",
+    desc: "Granite boulders sculpt the shoreline of this Seychellois gem, surrounded by some of the world's clearest waters.",
+    palmCount: 3
+  },
+  {
+    id: 8,
+    name: "Midnight Cay",
+    location: "Belize, Central America",
+    tag: "Caribbean Cay",
+    size: "6 acres",
+    beaches: 2,
+    depth: "Barrier Reef",
+    climate: "Tropical",
+    price: 1850000,
+    theme: "",
+    desc: "A small but extraordinary private cay sitting atop the Belize Barrier Reef — world class diving on your doorstep.",
+    palmCount: 2
+  }
+];
+
+let cart = [];
+let soldIslands = {};
+
+function formatPrice(n) {
+  if (n >= 1000000) return '$' + (n/1000000).toFixed(1) + 'M';
+  return '$' + n.toLocaleString();
+}
+
+function generateMiniSky(theme, palmCount, width=360, height=200) {
+  const themes = {
+    '': { sky: ['#5bb3e8','#9dd4f2'], sea: ['#1a6e8f','#0d4d6b'], cloud: 'rgba(255,255,255,0.9)' },
+    'sunset': { sky: ['#f4a261','#ffcba4'], sea: ['#1a6e8f','#0d4d6b'], cloud: 'rgba(255,240,220,0.85)' },
+    'tropical': { sky: ['#48cae4','#90e0ef'], sea: ['#0096c7','#023e8a'], cloud: 'rgba(255,255,255,0.9)' },
+    'misty': { sky: ['#adb5bd','#ccd5de'], sea: ['#457b9d','#1d3557'], cloud: 'rgba(220,225,230,0.8)' }
+  };
+  const t = themes[theme] || themes[''];
+  const horizon = Math.round(height * 0.56);
+  let palms = '';
+  if (palmCount > 0) {
+    const px = [width*0.38, width*0.52, width*0.44];
+    const delays = [0, -1.5, -3];
+    for (let i = 0; i < Math.min(palmCount, 3); i++) {
+      const x = px[i];
+      const py = horizon - 8;
+      palms += `<g style="animation:palmsway ${3.5 + i}s ease-in-out infinite ${delays[i]}s;transform-origin:${x}px ${py}px">
+        <rect x="${x-2}" y="${py-38}" width="4" height="38" fill="#5c4a1e" rx="2"/>
+        <ellipse cx="${x}" cy="${py-38}" rx="16" ry="7" fill="#2d6a4f" transform="rotate(-20,${x},${py-38})"/>
+        <ellipse cx="${x+4}" cy="${py-40}" rx="14" ry="6" fill="#40916c" transform="rotate(15,${x+4},${py-40})"/>
+        <ellipse cx="${x-6}" cy="${py-36}" rx="12" ry="5" fill="#2d6a4f" transform="rotate(-30,${x-6},${py-36})"/>
+      </g>`;
+    }
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}">
+    <defs>
+      <linearGradient id="sg${theme}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${t.sky[0]}"/>
+        <stop offset="100%" stop-color="${t.sky[1]}"/>
+      </linearGradient>
+      <linearGradient id="og${theme}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${t.sea[0]}"/>
+        <stop offset="100%" stop-color="${t.sea[1]}"/>
+      </linearGradient>
+    </defs>
+    <rect width="${width}" height="${horizon}" fill="url(#sg${theme})"/>
+    <rect y="${horizon}" width="${width}" height="${height-horizon}" fill="url(#og${theme})"/>
+    <!-- clouds -->
+    <g style="animation:miniDrift 18s linear infinite">
+      <ellipse cx="60" cy="28" rx="36" ry="11" fill="${t.cloud}"/>
+      <ellipse cx="60" cy="22" rx="20" ry="18" fill="${t.cloud}"/>
+      <ellipse cx="80" cy="24" rx="16" ry="14" fill="${t.cloud}"/>
+    </g>
+    <g style="animation:miniDrift 24s linear -8s infinite">
+      <ellipse cx="200" cy="38" rx="28" ry="9" fill="${t.cloud}" opacity="0.7"/>
+      <ellipse cx="200" cy="33" rx="15" ry="13" fill="${t.cloud}" opacity="0.7"/>
+      <ellipse cx="215" cy="35" rx="13" ry="11" fill="${t.cloud}" opacity="0.7"/>
+    </g>
+    <!-- island base -->
+    <ellipse cx="${width/2}" cy="${horizon+4}" rx="80" ry="16" fill="#3a7a52"/>
+    <ellipse cx="${width/2}" cy="${horizon}" rx="66" ry="12" fill="#4a9a66"/>
+    <!-- sand beach -->
+    <ellipse cx="${width/2}" cy="${horizon+2}" rx="55" ry="8" fill="#f5e6c8"/>
+    ${palms}
+    <!-- gentle wave -->
+    <path d="M0,${horizon+14} C${width*0.15},${horizon+8} ${width*0.35},${horizon+18} ${width*0.5},${horizon+12} C${width*0.65},${horizon+6} ${width*0.85},${horizon+16} ${width},${horizon+10} L${width},${height} L0,${height}Z" fill="${t.sea[0]}" opacity="0.4"/>
+  </svg>`;
+}
+
+function renderGrid() {
+  const grid = document.getElementById('islands-grid');
+  grid.innerHTML = '';
+  let available = 0;
+  ISLANDS.forEach(island => {
+    const sold = soldIslands[island.id];
+    if (!sold) available++;
+    const inCart = cart.find(i => i.id === island.id);
+    const card = document.createElement('div');
+    card.className = 'island-card' + (sold ? ' sold' : '');
+    card.id = 'card-' + island.id;
+    card.innerHTML = `
+      <div class="card-scene">
+        ${generateMiniSky(island.theme, island.palmCount)}
+        ${sold ? `<div class="sold-overlay">✓ SOLD<span class="sold-owner">Owned by ${sold}</span></div>` : ''}
+      </div>
+      <div class="card-info">
+        <div class="card-tag">${island.tag}</div>
+        <div class="card-name">${island.name}</div>
+        <div class="card-loc">📍 ${island.location}</div>
+        <div class="card-stats">
+          <div class="stat"><strong>${island.size}</strong>Area</div>
+          <div class="stat"><strong>${island.beaches}</strong>Beaches</div>
+          <div class="stat"><strong>${island.climate}</strong>Climate</div>
+          <div class="stat"><strong>${island.depth}</strong>Waters</div>
+        </div>
+        <div class="card-price">${formatPrice(island.price)} <span>USD</span></div>
+        ${!sold ? `<div class="card-actions">
+          <button class="btn-add ${inCart ? 'in-cart' : ''}" onclick="toggleCart_(${island.id})">
+            ${inCart ? '✓ In Cart — Remove' : '+ Add to Cart'}
+          </button>
+          <button class="btn-remove" onclick="openBuy(${island.id})">Buy Now</button>
+        </div>` : ''}
+      </div>`;
+    grid.appendChild(card);
+  });
+  document.getElementById('stat-available').textContent = available;
+  document.getElementById('stat-sold').textContent = Object.keys(soldIslands).length;
+}
+
+function toggleCart_(id) {
+  const island = ISLANDS.find(i => i.id === id);
+  const idx = cart.findIndex(i => i.id === id);
+  if (idx >= 0) {
+    cart.splice(idx, 1);
+    showNotif(`"${island.name}" removed from cart`);
+  } else {
+    cart.push(island);
+    showNotif(`"${island.name}" added to cart 🏝️`);
+    const cnt = document.getElementById('cart-count');
+    cnt.classList.remove('bump');
+    void cnt.offsetWidth;
+    cnt.classList.add('bump');
+  }
+  renderGrid();
+  renderCart();
+}
+
+function renderCart() {
+  const cnt = document.getElementById('cart-count');
+  cnt.textContent = cart.length;
+  const container = document.getElementById('cart-items');
+  const total = cart.reduce((s, i) => s + i.price, 0);
+  document.getElementById('cart-total-display').textContent = formatPrice(total);
+  document.getElementById('checkout-btn').disabled = cart.length === 0;
+
+  if (cart.length === 0) {
+    container.innerHTML = `<div class="cart-empty">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="#aaa" stroke-width="1.5"/><path d="M14 20h20l-3 12H17z" stroke="#aaa" stroke-width="1.5" fill="none"/><circle cx="18" cy="34" r="2" fill="#aaa"/><circle cx="30" cy="34" r="2" fill="#aaa"/></svg>
+      <p>Your cart is empty</p>
+      <p style="font-size:12px;margin-top:4px">Add an island to get started</p>
+    </div>`;
+    return;
+  }
+
+  container.innerHTML = cart.map(island => `
+    <div class="cart-item">
+      <div class="ci-thumb">${generateMiniSky(island.theme, 1, 70, 55)}</div>
+      <div class="ci-info">
+        <div class="ci-name">${island.name}</div>
+        <div class="ci-loc">${island.location}</div>
+        <div class="ci-price">${formatPrice(island.price)}</div>
+      </div>
+      <button class="ci-remove" onclick="toggleCart_(${island.id})">✕</button>
+    </div>`).join('');
+}
+
+function toggleCart() {
+  const overlay = document.getElementById('cart-overlay');
+  const drawer = document.getElementById('cart-drawer');
+  const open = drawer.classList.contains('open');
+  if (open) {
+    overlay.classList.remove('open');
+    drawer.classList.remove('open');
+  } else {
+    renderCart();
+    overlay.classList.add('open');
+    drawer.classList.add('open');
+  }
+}
+
+function openBuy(id) {
+  const island = ISLANDS.find(i => i.id === id);
+  const modal = document.getElementById('modal-content');
+  const tax = Math.round(island.price * 0.02);
+  const legal = 85000;
+  const total = island.price + tax + legal;
+
+  modal.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="buy-scene">${generateMiniSky(island.theme, island.palmCount, 440, 160)}</div>
+    <div class="buy-title">${island.name}</div>
+    <div class="buy-loc">📍 ${island.location} · ${island.size}</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6">${island.desc}</p>
+    <div class="buy-details">
+      <div class="buy-detail"><label>Size</label><span>${island.size}</span></div>
+      <div class="buy-detail"><label>Beaches</label><span>${island.beaches} private beaches</span></div>
+      <div class="buy-detail"><label>Climate</label><span>${island.climate}</span></div>
+      <div class="buy-detail"><label>Waters</label><span>${island.depth}</span></div>
+    </div>
+    <div class="buy-form">
+      <label>Full Legal Name</label>
+      <input type="text" id="buyer-name" placeholder="e.g. Alexandra Monroe" />
+      <label>Email Address</label>
+      <input type="email" id="buyer-email" placeholder="your@email.com" />
+      <label>Nationality</label>
+      <input type="text" id="buyer-nation" placeholder="e.g. United States" />
+    </div>
+    <div class="buy-price-row">
+      <span>Island Price</span>
+      <strong>${formatPrice(island.price)}</strong>
+    </div>
+    <div class="buy-price-row" style="padding:6px 0;font-size:12px;color:var(--muted)">
+      <span>Transfer Tax (2%)</span><span>+${formatPrice(tax)}</span>
+    </div>
+    <div class="buy-price-row" style="padding:6px 0 16px;font-size:12px;color:var(--muted)">
+      <span>Legal & Documentation</span><span>+${formatPrice(legal)}</span>
+    </div>
+    <button class="btn-confirm" onclick="confirmPurchase(${island.id}, ${total}, ${tax})">
+      ✦ Confirm Purchase · ${formatPrice(total)}
+    </button>`;
+
+  document.getElementById('modal-wrap').classList.add('open');
+}
+
+function confirmPurchase(id, total, tax) {
+  const name = document.getElementById('buyer-name').value.trim();
+  const email = document.getElementById('buyer-email').value.trim();
+  if (!name || !email) { showNotif('Please fill in your name and email'); return; }
+
+  const island = ISLANDS.find(i => i.id === id);
+  const legal = 85000;
+  const ref = 'IV-' + Date.now().toString().slice(-8).toUpperCase();
+  const now = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  soldIslands[id] = name;
+  // remove from cart if present
+  const idx = cart.findIndex(c => c.id === id);
+  if (idx >= 0) cart.splice(idx, 1);
+
+  const modal = document.getElementById('modal-content');
+  modal.innerHTML = `
+    <div class="invoice-header">
+      <div class="check-icon">✓</div>
+      <h2>Purchase Complete</h2>
+      <p>Welcome to the exclusive family of IsleVault island owners</p>
+    </div>
+
+    <div class="ownership-badge">
+      <div class="ob-label">Island Owner</div>
+      <div class="ob-name">${name}</div>
+      <div class="ob-island">🏝️ ${island.name} · ${island.location}</div>
+    </div>
+
+    <div class="invoice-box">
+      <div class="inv-row"><span class="lbl">Transaction Ref</span><span class="val">${ref}</span></div>
+      <div class="inv-row"><span class="lbl">Purchase Date</span><span class="val">${now}</span></div>
+      <div class="inv-row"><span class="lbl">Island</span><span class="val">${island.name}</span></div>
+      <div class="inv-row"><span class="lbl">Location</span><span class="val">${island.location}</span></div>
+      <div class="inv-row"><span class="lbl">Area</span><span class="val">${island.size}</span></div>
+      <div class="inv-row"><span class="lbl">Buyer</span><span class="val">${name}</span></div>
+      <div class="inv-row"><span class="lbl">Email</span><span class="val">${email}</span></div>
+    </div>
+
+    <div class="invoice-box">
+      <div class="inv-row"><span class="lbl">Island Price</span><span class="val">${formatPrice(island.price)}</span></div>
+      <div class="inv-row"><span class="lbl">Transfer Tax (2%)</span><span class="val">+${formatPrice(tax)}</span></div>
+      <div class="inv-row"><span class="lbl">Legal & Documentation</span><span class="val">+${formatPrice(legal)}</span></div>
+      <div class="inv-total-row">
+        <span>Total Paid</span>
+        <strong>${formatPrice(total)}</strong>
+      </div>
+    </div>
+
+    <div class="inv-ref">${ref} · IsleVault Private Ltd</div>
+    <br>
+    <button class="btn-done" onclick="closeModal()">Done — Return to Marketplace</button>`;
+
+  renderGrid();
+  renderCart();
+}
+
+function openCheckout() {
+  if (cart.length === 0) return;
+  toggleCart();
+  // Open buy for first item if single, otherwise show multi-buy
+  if (cart.length === 1) {
+    openBuy(cart[0].id);
+  } else {
+    openMultiBuy();
+  }
+}
+
+function openMultiBuy() {
+  const total_items = cart.reduce((s, i) => s + i.price, 0);
+  const tax = Math.round(total_items * 0.02);
+  const legal = cart.length * 85000;
+  const total = total_items + tax + legal;
+  const modal = document.getElementById('modal-content');
+
+  modal.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div style="margin-bottom:24px">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--dark);margin-bottom:4px">
+        Checkout — ${cart.length} Islands
+      </div>
+      <div style="font-size:13px;color:var(--muted)">Complete your island portfolio purchase</div>
+    </div>
+    <div style="margin-bottom:20px">
+      ${cart.map(island => `
+        <div style="display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid #eee">
+          <div style="width:60px;height:46px;border-radius:8px;overflow:hidden;flex-shrink:0">${generateMiniSky(island.theme, 1, 60, 46)}</div>
+          <div style="flex:1">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:16px">${island.name}</div>
+            <div style="font-size:11px;color:var(--muted)">${island.location}</div>
+          </div>
+          <div style="font-size:15px;color:var(--ocean1);font-weight:500">${formatPrice(island.price)}</div>
+        </div>`).join('')}
+    </div>
+    <div class="buy-form">
+      <label>Full Legal Name</label>
+      <input type="text" id="buyer-name" placeholder="e.g. Alexandra Monroe" />
+      <label>Email Address</label>
+      <input type="email" id="buyer-email" placeholder="your@email.com" />
+    </div>
+    <div class="buy-price-row"><span>Islands Subtotal</span><strong>${formatPrice(total_items)}</strong></div>
+    <div class="buy-price-row" style="padding:4px 0;font-size:12px;color:var(--muted)"><span>Transfer Taxes</span><span>+${formatPrice(tax)}</span></div>
+    <div class="buy-price-row" style="padding:4px 0 16px;font-size:12px;color:var(--muted)"><span>Legal & Documentation (×${cart.length})</span><span>+${formatPrice(legal)}</span></div>
+    <button class="btn-confirm" onclick="confirmMultiBuy(${total}, ${tax}, ${legal})">
+      ✦ Confirm All Purchases · ${formatPrice(total)}
+    </button>`;
+
+  document.getElementById('modal-wrap').classList.add('open');
+}
+
+function confirmMultiBuy(total, tax, legal) {
+  const name = document.getElementById('buyer-name').value.trim();
+  const email = document.getElementById('buyer-email').value.trim();
+  if (!name || !email) { showNotif('Please fill in your name and email'); return; }
+
+  const boughtIslands = [...cart];
+  const ref = 'IV-' + Date.now().toString().slice(-8).toUpperCase();
+  const now = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  boughtIslands.forEach(island => { soldIslands[island.id] = name; });
+  cart = [];
+
+  const modal = document.getElementById('modal-content');
+  const subtotal = boughtIslands.reduce((s, i) => s + i.price, 0);
+
+  modal.innerHTML = `
+    <div class="invoice-header">
+      <div class="check-icon">✓</div>
+      <h2>Portfolio Acquired</h2>
+      <p>Congratulations on your island portfolio</p>
+    </div>
+
+    <div class="ownership-badge">
+      <div class="ob-label">Island Portfolio Owner</div>
+      <div class="ob-name">${name}</div>
+      <div class="ob-island">🏝️ ${boughtIslands.length} Islands · ${boughtIslands.map(i=>i.name).join(', ')}</div>
+    </div>
+
+    <div class="invoice-box">
+      <div class="inv-row"><span class="lbl">Transaction Ref</span><span class="val">${ref}</span></div>
+      <div class="inv-row"><span class="lbl">Purchase Date</span><span class="val">${now}</span></div>
+      <div class="inv-row"><span class="lbl">Buyer</span><span class="val">${name}</span></div>
+      <div class="inv-row"><span class="lbl">Email</span><span class="val">${email}</span></div>
+      ${boughtIslands.map(island => `<div class="inv-row"><span class="lbl">${island.name}</span><span class="val">${formatPrice(island.price)}</span></div>`).join('')}
+    </div>
+
+    <div class="invoice-box">
+      <div class="inv-row"><span class="lbl">Islands Subtotal</span><span class="val">${formatPrice(subtotal)}</span></div>
+      <div class="inv-row"><span class="lbl">Transfer Taxes</span><span class="val">+${formatPrice(tax)}</span></div>
+      <div class="inv-row"><span class="lbl">Legal & Documentation</span><span class="val">+${formatPrice(legal)}</span></div>
+      <div class="inv-total-row">
+        <span>Total Paid</span>
+        <strong>${formatPrice(total)}</strong>
+      </div>
+    </div>
+
+    <div class="inv-ref">${ref} · IsleVault Private Ltd</div>
+    <br>
+    <button class="btn-done" onclick="closeModal()">Done — Return to Marketplace</button>`;
+
+  renderGrid();
+  renderCart();
+}
+
+function closeModal() {
+  document.getElementById('modal-wrap').classList.remove('open');
+}
+
+function showNotif(msg) {
+  const n = document.getElementById('notif');
+  n.textContent = msg;
+  n.classList.add('show');
+  clearTimeout(n._t);
+  n._t = setTimeout(() => n.classList.remove('show'), 2800);
+}
+
+// Close modal on overlay click
+document.getElementById('modal-wrap').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ─── COOKIE HELPERS ──────────────────────────────────────────────
+function setCookie(name, value, days) {
+  const expires = new Date(Date.now() + days * 864e5).toUTCString();
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
+}
+
+function getCookie(name) {
+  return document.cookie.split('; ').reduce((r, c) => {
+    const [k, v] = c.split('=');
+    return k === name ? decodeURIComponent(v) : r;
+  }, null);
+}
+
+// ─── SITE COOKIES (scanned by external banner tool) ──────────────
+function initSiteCookies() {
+  // Essential
+  if (!getCookie('islevault_session'))
+    setCookie('islevault_session', 'sess_' + Math.random().toString(36).slice(2,14).toUpperCase(), 1);
+  // Functional
+  setCookie('islevault_currency', 'USD', 365);
+  setCookie('islevault_region',   'Global', 365);
+  setCookie('islevault_theme',    'light', 365);
+  // Analytics
+  if (!getCookie('_iv_visitor'))
+    setCookie('_iv_visitor', 'v_' + Date.now() + '_' + Math.random().toString(36).slice(2,8), 730);
+  setCookie('_iv_pageviews',  parseInt(getCookie('_iv_pageviews') || '0') + 1, 30);
+  setCookie('_iv_ref_source', document.referrer ? 'referral' : 'direct', 30);
+  // Performance
+  setCookie('_iv_perf_load', Date.now(), 1);
+  if (!getCookie('_iv_abtest'))
+    setCookie('_iv_abtest', Math.random() < 0.5 ? 'variant_A' : 'variant_B', 90);
+  // Marketing
+  setCookie('_iv_adclick', 'campaign_luxury_islands_2025', 90);
+  setCookie('_iv_segment', 'high_net_worth_prospect', 60);
+}
+
+// Init
+renderGrid();
+renderCart();
+initSiteCookies();
+</script>
+</body>
+</html>
